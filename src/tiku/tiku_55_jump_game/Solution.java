@@ -27,7 +27,8 @@ public class Solution {
 //        int[] arr = new int[]{2,3,1,1,4}; // true
 //        int[] arr = new int[]{3,2,1,0,4}; // false
 //        int[] arr = new int[]{0}; // false
-        int[] arr = new int[]{3,2,2,0,4}; // false
+        // false
+        int[] arr = new int[]{3,2,2,0,4};
 
 
 
