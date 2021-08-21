@@ -14,10 +14,19 @@ public class Solution {
     public static void main(String[] args) {
 
 //        expect value 2
-        String s= "12";
+//        String s= "12";
 
 //        exptct value 3
 //        String s = "226";
+
+        //        exptct value 0
+//        String s = "06";
+
+        //        exptct value 1
+        String s = "10";
+
+//        10是不存在 1 0的情况的，if没判断好
+
 
         System.out.println("res is =  "+numDecodings(s));
 
@@ -30,16 +39,16 @@ public class Solution {
         String[] tmp = s.split("");
         int res=0;
         int len = tmp.length-1;
-        if (len==1){
-            return 0;
-        }
-        if ( "0".equals( tmp[1])){
+//        if (len==1){
+//            return 0;
+//        }
+        if ( "0".equals( tmp[0])){
             return 0;
         }else {
-            queue.add(1);
+            queue.add(0);
         }
         if ( Integer.parseInt (tmp[0]+tmp[1]) <= 26 ){
-            queue.add(2);
+            queue.add(1);
         }
 
 //        记录当前编码的可能性所在的下标。例如216，有可能第一位编码是2所在的b，那开始下标移动到1继续判断，也有可能是22，然后开始下标移动到2，也就是从数字6开始。
@@ -51,8 +60,8 @@ public class Solution {
             for (int i=0;i<queue.size();i++){
                 int index = queue.poll();
 //                如果已经走到了最后一位，说明是其中一种序列
-                if (index >= len){
-                    if (index==len){
+                if (index >= len-1){
+                    if (index==len-1){
                         res++;
                     }
                     continue;
