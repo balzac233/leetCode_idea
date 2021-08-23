@@ -35,9 +35,30 @@ public class Solution {
 
 
         printZ(height);
-        System.out.println("  res is   " + trap4(height));
+        System.out.println("  res is   " + trap6(height));
 
     }
+
+//    官方题解
+    public static int trap6(int[] height) {
+        int ans = 0;
+        int left = 0, right = height.length - 1;
+        int leftMax = 0, rightMax = 0;
+        while (left < right) {
+            leftMax = Math.max(leftMax, height[left]);
+            rightMax = Math.max(rightMax, height[right]);
+            if (height[left] < height[right]) {
+                ans += leftMax - height[left];
+                ++left;
+            } else {
+                ans += rightMax - height[right];
+                --right;
+            }
+        }
+        return ans;
+    }
+
+
 
     //  v4   思路1 v2  (试着用递归)
 //    找出最高点
@@ -55,10 +76,87 @@ public class Solution {
                 maxIndex = i;
             }
         }
-        res1 = sl(height, l, maxIndex);
-        res2 = sr(height,maxIndex,r);
+        while (l-r>=1){
+            for (int i = l; i < r; i++) {
+                if (height[i] > max) {
+                    max = height[i];
+                    maxIndex = i;
+                }
+            }
+            int water = max * (r - maxIndex - 1);
+            for (int i = maxIndex + 1; i < r; i++) {
+                water = water - height[i];
+            }
+            r =  maxIndex;
+            res1 = res1 + water;
+        }
+//        res1 = sl(height, l, maxIndex);
+//        res2 = sr(height,maxIndex,r);
         return res1+res2;
     }
+
+    //  v5   思路1 v3  (递归成功，试着用while)
+//    找出最高点
+//    分别从两边往最高点遍历：如果下一个数比当前数小，说明可以接到水
+    public static int trap5(int[] height) {
+        int len = height.length;
+        int l = 0;
+        int r = len-1;
+        int max = 0;
+        int maxIndex = 0;
+        int res = 0;
+        for (int i = 0; i < height.length; i++) {
+            if (height[i] > max) {
+                max = height[i];
+                maxIndex = i;
+            }
+        }
+        int maxIndex2 = maxIndex;
+        r=maxIndex2;
+        while (r-l>=1){
+            max = 0;
+            maxIndex = 0;
+            for (int i = l; i < r; i++) {
+                if (height[i] > max) {
+                    max = height[i];
+                    maxIndex = i;
+                }
+            }
+            if (max<=0){
+                break;
+            }
+            int water = max * (r - maxIndex - 1);
+            for (int i = maxIndex + 1; i < r; i++) {
+                water = water - height[i];
+            }
+            r =  maxIndex;
+            res = res + water;
+        }
+        l = maxIndex2;
+        r = height.length-1;
+        while (r-l>=1){
+            max = 0;
+            maxIndex = 0;
+            for (int i = l+1; i <= r; i++) {
+                if (height[i] > max) {
+                    max = height[i];
+                    maxIndex = i;
+                }
+            }
+            if (max<=0){
+                break;
+            }
+            int water = max * ( maxIndex-l - 1);
+            for (int i = l+1; i < maxIndex; i++) {
+                water = water - height[i];
+            }
+            l =  maxIndex;
+            res = res + water;
+        }
+        return res;
+    }
+
+
 
     public static int sl(int[] height, int l, int r) {
         if (r-l<=1){
