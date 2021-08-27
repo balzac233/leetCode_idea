@@ -15,12 +15,22 @@ public class TestBitMap {
     private static String[] fruit = new String[]{"苹果", "香蕉", "西瓜", "梨", "草莓", "葡萄", "杨梅", "榴莲"};
 //                                                  1       2     4     8      16    32     64     128
 
+
     public static void main(String[] args) {
+
+//        把水果数组放进map，到时候可以在生成fruitNum的时候取用。
+        int len = fruit.length;
+        int init = 1;
+        Map<String,Integer> fruitMap = new HashMap<>();
+        for (int i=0;i<len;i++){
+            fruitMap.put(fruit[i],1<<i);
+        }
+
+
 
 //        int[] fruit = new int[];
 //        Map<Byte,String> map = new HashMap<>();
 
-        int len = fruit.length;
         int pow2 = 1;
 
 //        Map<String,Integer> map = new HashMap<>();
@@ -34,6 +44,11 @@ public class TestBitMap {
 
 //      01001000
 //        8 + 64 = 72   期望值 草莓香蕉
+
+
+
+//        生成fruitNum
+
 
         int fruitNum = 72;
         List<String> fruitList = fruitList(fruitNum);

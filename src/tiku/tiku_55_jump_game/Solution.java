@@ -1,10 +1,8 @@
 package tiku.tiku_55_jump_game;
 
 
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.Set;
+import java.lang.reflect.Array;
+import java.util.*;
 
 /**
  * 这题叫跳跃游戏，其实和坐公交车之类的路线题，都很像
@@ -18,6 +16,17 @@ public class Solution {
 
     public static void main(String[] args) {
 
+//        混合数组
+        Object[]cc = {new Object(),1};
+        Number[] dd = {new Long(1),1.2};
+
+        int[] a = new int[]{1,2,3};
+
+//        System.out.println(a.getClass().isArray());
+//        System.out.println(a instanceof int[]);
+
+        test002(a);
+
 //        输入：nums = [2,3,1,1,4]
 //        输出：true
 
@@ -28,11 +37,28 @@ public class Solution {
 //        int[] arr = new int[]{3,2,1,0,4}; // false
 //        int[] arr = new int[]{0}; // false
         // false
-        int[] arr = new int[]{3,2,2,0,4};
 
+//        int[] arr = new int[]{3,2,2,0,4};
+//
+//
+//
+//        System.out.println(" res =   "+canJump3(arr));
 
+    }
 
-        System.out.println(" res =   "+canJump3(arr));
+    public static void test002(Object ob){
+
+        System.out.println(ob.getClass().isArray());
+//        
+        System.out.println(ob instanceof int[]);
+
+        int[] a =(int[]) ob;
+
+        for (int i=0;i<a.length;i++){
+            System.out.print(" , "+a[i]);
+        }
+        System.out.println();
+        System.out.println(Array.getLength(ob));
 
     }
 
