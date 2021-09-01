@@ -2,7 +2,10 @@ package tiku.工作.楼宇卫视.输出菜单;
 
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @description 收费项目分类-实体类
@@ -84,6 +87,85 @@ public class ChargeItemCategoryEntity {
     public LocalDateTime getModifiedTime() {
         return modifiedTime;
     }
+
+    /**
+     * @description 形成树list，找爸爸。
+     * 遍历map里面的对象的父id，如果父菜单已经有孩子列表了，那么就往里面塞，
+     * 没有的话就创建一个孩子列表把自己塞里面
+     * @author luomeng
+     * @updateTime 2021/8/31 17:00
+     * @throws
+     */
+    public static List<ChargeItemCategoryEntity> buildTree(List<ChargeItemCategoryEntity> list) {
+        //用来返回的list
+        List<ChargeItemCategoryEntity> newList = new ArrayList<>();
+        //用空间换时间的方法降低时间复杂度 把所有的对象都放入map
+        Map<String, ChargeItemCategoryEntity> map = new HashMap<>();
+        for (ChargeItemCategoryEntity cic : list) {
+            map.put(cic.getObjectId(), cic);
+            //将最高层级的类放入新的list
+            if (cic.getCategoryLevel() == 1) {
+                newList.add(cic);
+            }
+        }
+        //将父子对象一一匹对
+        for (String key : map.keySet()) {
+            String parentId = map.get(key).getParentId();
+            if (map.get(parentId) != null) {
+//                如果父菜单已经有孩子列表了，那么就往里面塞，
+                if (map.get(parentId).getChildList() != null) {
+                    map.get(parentId).getChildList().add(map.get(key));
+//                    没有的话就创建一个孩子列表把自己塞里面
+                } else {
+                    List<ChargeItemCategoryEntity> childList = new ArrayList<>();
+                    childList.add(map.get(key));
+                    map.get(parentId).setChildList(childList);
+                }
+            }
+        }
+        return newList;
+    }
+
+    /**
+     * @description 形成树list，找爸爸。
+     * 遍历map里面的对象的父id，如果父菜单已经有孩子列表了，那么就往里面塞，
+     * 没有的话就创建一个孩子列表把自己塞里面
+     * @author luomeng
+     * @updateTime 2021/8/31 17:00
+     * @throws
+     */
+    public static ChargeItemCategoryEntity buildTree2(List<ChargeItemCategoryEntity> list) {
+//        //用来返回的list
+//        List<ChargeItemCategoryEntity> newList = new ArrayList<>();
+        ChargeItemCategoryEntity newList = new ChargeItemCategoryEntity();
+        //用空间换时间的方法降低时间复杂度 把所有的对象都放入map
+        Map<String, ChargeItemCategoryEntity> map = new HashMap<>();
+        for (ChargeItemCategoryEntity cic : list) {
+            map.put(cic.getObjectId(), cic);
+            //将最高层级的类放入新的list
+            if (cic.getCategoryLevel() == 1) {
+//                newList.add(cic);
+                newList = cic;
+            }
+        }
+        //将父子对象一一匹对
+        for (String key : map.keySet()) {
+            String parentId = map.get(key).getParentId();
+            if (map.get(parentId) != null) {
+//                如果父菜单已经有孩子列表了，那么就往里面塞，
+                if (map.get(parentId).getChildList() != null) {
+                    map.get(parentId).getChildList().add(map.get(key));
+//                    没有的话就创建一个孩子列表把自己塞里面
+                } else {
+                    List<ChargeItemCategoryEntity> childList = new ArrayList<>();
+                    childList.add(map.get(key));
+                    map.get(parentId).setChildList(childList);
+                }
+            }
+        }
+        return newList;
+    }
+
 
     public void setModifiedTime(LocalDateTime modifiedTime) {
         this.modifiedTime = modifiedTime;

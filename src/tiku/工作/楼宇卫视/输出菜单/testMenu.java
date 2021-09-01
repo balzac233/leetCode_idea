@@ -25,9 +25,7 @@ public class testMenu {
         List<ChargeItemCategoryEntity> chargeItemCategoryEntities = new ArrayList<>();
         chargeItemCategoryEntities.add(new ChargeItemCategoryEntity
                 .Builder().objectId("4f447eeb-0a06-11ec-8005-80fa5b3798e6").parentId("").categoryName("全部").categoryLevel(1).build());
-        chargeItemCategoryEntities.add(new ChargeItemCategoryEntity
-                .Builder().objectId("9b7e5d6a-0a06-11ec-8005-80fa5b3798e6").parentId("4f447eeb-0a06-11ec-8005-80fa5b3798e6").categoryName("前期欠费").categoryLevel(2).build());
-        chargeItemCategoryEntities.add(new ChargeItemCategoryEntity
+          chargeItemCategoryEntities.add(new ChargeItemCategoryEntity
                 .Builder().objectId("444").parentId("9b7e5d6a-0a06-11ec-8005-80fa5b3798e6").categoryName("前期欠费-11").categoryLevel(3).build());
         chargeItemCategoryEntities.add(new ChargeItemCategoryEntity
                 .Builder().objectId("555").parentId("444").categoryName("前期欠费-11-33").categoryLevel(4).build());
@@ -35,6 +33,8 @@ public class testMenu {
                 .Builder().objectId("9b7e7a12-0a06-11ec-8005-80fa5b3798e6").parentId("4f447eeb-0a06-11ec-8005-80fa5b3798e6").categoryName("临时欠费").categoryLevel(2).build());
         chargeItemCategoryEntities.add(new ChargeItemCategoryEntity
                 .Builder().objectId("d8525dfe-0a06-11ec-8005-80fa5b3798e6").parentId("9b7e7a12-0a06-11ec-8005-80fa5b3798e6").categoryName("车位费002").categoryLevel(3).build());
+        chargeItemCategoryEntities.add(new ChargeItemCategoryEntity
+                .Builder().objectId("9b7e5d6a-0a06-11ec-8005-80fa5b3798e6").parentId("4f447eeb-0a06-11ec-8005-80fa5b3798e6").categoryName("前期欠费").categoryLevel(2).build());
         chargeItemCategoryEntities.add(new ChargeItemCategoryEntity
                 .Builder().objectId("d852b644-0a06-11ec-8005-80fa5b3798e6").parentId("9b7e7a12-0a06-11ec-8005-80fa5b3798e6").categoryName("保管费").categoryLevel(3).build());
          ChargeItemCategoryEntity res = new ChargeItemCategoryEntity();
@@ -54,7 +54,8 @@ public class testMenu {
             System.out.println("查询出错--没有根菜单");
             return;
         }
-        ChargeItemCategoryEntity res2 = getChildList(res, chargeItemCategoryEntities);
+        ChargeItemCategoryEntity res2 = ChargeItemCategoryEntity.buildTree2(chargeItemCategoryEntities);
+//        ChargeItemCategoryEntity res2 = getChildList(res, chargeItemCategoryEntities);
 
         List<ChargeItemCategoryEntity> list = res2.getChildList();
         if (list.size()<=0){
@@ -89,7 +90,8 @@ public class testMenu {
                         queue.offer(chChild);
                     }
                 }
-//                childList = cList.stream().filter(chChild->chChild.getParentId().equals(objectId)).collect(Collectors.toList());
+//                childList = cList.stream().filter(chChild->chChild.getParentId().equals(objectId))
+//                .collect(Collectors.toList());
                 chParent.setChildList(childList2);
             }
         }
